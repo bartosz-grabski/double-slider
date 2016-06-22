@@ -22,7 +22,7 @@ define([
     var xhrData = [{"name":"Forms","icon":"https://cdn2.iconfinder.com/data/icons/picol-vector/32/document_text-64.png",
         "path":"/strype-templates/global/Forms","strypes":[{"name":"Contact form","thumbnail":
             "https://cdn4.iconfinder.com/data/icons/office-20/128/OFFice-05-128.png","path":"/strype-templates/global/Forms/contact-form-1"},
-            {"name":"Contact form 2","thumbnail":"https://cdn4.iconfinder.com/data/icons/office-20/128/OFFice-05-128.png",
+            {"name":"Contact form 2","thumbnail":"https://cdn4.iconfinder.com/data/icons/office-21/128/office-04-128.png",
                 "path":"/strype-templates/global/Forms/contact-form-2"},{"name":"Contact form 3","thumbnail":
                 "https://cdn4.iconfinder.com/data/icons/office-vol-4/128/office-04-128.png",
                 "path":"/strype-templates/global/Forms/contact-form-3"}]},
@@ -32,7 +32,7 @@ define([
                 "path":"/strype-templates/global/Galleries/gallery-1"},{"name":"Even cooler gallery",
                 "thumbnail":"https://cdn0.iconfinder.com/data/icons/Android-R2-png/128/Gallery-Android-R.png",
                 "path":"/strype-templates/global/Galleries/gallery-2"},{"name":"Even cooler gallery","thumbnail":
-                "/strype-templates/global/gallery_thumbnail/gallery_img_200_3.png",
+                "https://cdn3.iconfinder.com/data/icons/musthave/128/Picture.png",
                 "path":"/strype-templates/global/Galleries/gallery-3"},
                 {"name":"Even cooler gallery","thumbnail":
                     "https://cdn0.iconfinder.com/data/icons/IS_CMS/128/gallery.png",
@@ -127,13 +127,13 @@ define([
             });
         },
         loadPane: function(node){
+            console.log("loadPane", node);
             this.contentPaneWidget.destroyDescendants();
             var order = domAttr.get(node, "data-widget-order");
             var strypes = xhrData[order].strypes;
+            console.log(strypes);
             for (var i = 0; i < strypes.length; i++) {
-                console.log(strypes[i].name);
                 var strypeItem = new StrypeItem(strypes[i].thumbnail);
-                console.log("strypeItem", strypeItem);
                 strypeItem.placeAt(this.contentPaneWidget);
             }
              this.initializeSwiperForNode(".strypes-items-wrapper");
