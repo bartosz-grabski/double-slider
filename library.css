@@ -1,27 +1,53 @@
+.swiper-browser {
+    width:100%;
+    font-family: Arial;
+    font-size: 14px;
+
+}
+
 .menu-container {
-    width: 600px;
+    width: 100%;
     height: 100px;
     background-color: #CFCFCF;
 }
 
+
 .swiper-separator {
-    width: 600px;
     margin: auto;
     height:5px;
 }
 
 .swiper-slide {
-    color: #6871F7;
-    font-family: Arial;
-    font-size: 14px;
+    color: #FFFFFF;
     text-align: center;
+    width: 60%;
+    /* Center slide text vertically */
+    align-items: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 350px;
+    width:60%;
+}
+
+.swiper-slide:nth-child(2n) {
+    width: 40%;
+}
+.swiper-slide:nth-child(3n) {
+    width: 20%;
+}
+
+.active-menu-item {
+    color: #6871F7;
+
 }
 
 .swiper-slide-icon {
-    height: 70px;
+    height: 60px;
     background-repeat: no-repeat;
     background-position: center;
     margin-bottom:5px;
+    margin-top:7px;
+    width:100%;
 }
 
 .swiper-separator-highlight {
@@ -32,22 +58,29 @@
 }
 
 .swiper-content {
-	width: 600px;
-	height: 250px;
-}
-
-.swiper-slide {
-    background-repeat: no-repeat;
-    background-position: center;
+	width: 100%;
+	height: 300px;
 }
 
 .strypesLibraryContent {
-    width: 600px;
+    width: 100%;
     margin: auto;
 }
 
 .strypes-items-wrapper {
-	width: 600px;
-	height: 300px;
+	width: 100%;
+	height: 400px;
     background-color: #E8E8E8;
+    color: #9E9E9E;
+    font-size: 1.2em;
 }
+
+.swiper-category-name {
+    margin-left: 1.5em;
+    margin-top: 1em;
+}
+
+.bold {
+    font-weight: bold;
+}
+

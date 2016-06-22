@@ -1,11 +1,9 @@
-<div>
+<div class="swiper-browser">
     <div class="swiper-container menu-container">
         <!-- Additional required wrapper -->
         <div class="swiper-wrapper menu-wrapper" data-dojo-attach-point="menuWrapperDom">
             <!-- Slides -->
         </div>
-
-
 
         <!-- If we need navigation buttons -->
         <!--<div class="swiper-button-prev menu-prev"></div>-->
@@ -14,11 +12,12 @@
     </div>
 
     <div class="swiper-separator">
-        <div class="swiper-separator-highlight"></div>
+        <div class="swiper-separator-highlight" data-dojo-attach-point="separator"></div>
     </div>
 
     <div class="swiper-container strypes-items-wrapper">
-        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point="contentPaneWidget" class="strypesLibraryContent swiper-wrapper menu-wrapper" >
+        <div class="swiper-category-name" data-dojo-attach-point="categoryName">Libraries/</div>
+        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point="contentPaneWidget" class="strypesLibraryContent swiper-wrapper" >
         </div>
     </div>
 </div>
