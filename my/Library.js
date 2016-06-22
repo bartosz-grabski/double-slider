@@ -22,9 +22,11 @@ define([
 
         templateString : itemTemplate,
         name : '',
+        iconUrl : '',
 
-        constructor : function(name, onClick) {
+        constructor : function(name, iconUrl) {
             this.name = name;
+            this.iconUrl = iconUrl;
         }
 
     });
@@ -66,7 +68,7 @@ define([
         postCreate: function() {
 
             for (var i = 0; i < xhrData.length; i++) {
-                var newMenuItem = new MenuItem(xhrData[i].name);
+                var newMenuItem = new MenuItem(xhrData[i].name,xhrData[i].icon);
                 newMenuItem.placeAt(this.menuWrapperDom);
             }
 
