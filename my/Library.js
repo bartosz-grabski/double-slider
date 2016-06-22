@@ -5,6 +5,7 @@ define([
     "dijit/_TemplatedMixin",
     "dojo/text!/my/LibraryTemplate.html",
     "dojo/text!/my/LibraryItemTemplate.html",
+    "dojo/text!/my/LibraryStrypeItemTemplate.html",
     "dojo/dom-class",
     "dojo/dom-construct",
     "dijit/layout/ContentPane",
@@ -13,23 +14,49 @@ define([
     "dijit/_WidgetsInTemplateMixin",
     "dojo/on",
     "dojo/request/xhr",
+    "dojo/dom-attr",
     "dojo/domReady!",
-], function(declare, parser, _WidgetBase, _TemplatedMixin, template, itemTemplate, domClass, domConstruct,
-            ContentPane, registry, lang, _WidgetsInTemplateMixin, on, xhr){
+], function(declare, parser, _WidgetBase, _TemplatedMixin, template, itemTemplate, strypeTemplate, domClass, domConstruct,
+            ContentPane, registry, lang, _WidgetsInTemplateMixin, on, xhr, domAttr){
 
-    var xhrData = [{"name":"Forms","icon":"https://cdn2.iconfinder.com/data/icons/picol-vector/32/document_text-64.png","path":"/strype-templates/global/Forms","strypes":[{"name":"Contact form","path":"/strype-templates/global/Forms/contact-form-1"},{"name":"Contact form 2","path":"/strype-templates/global/Forms/contact-form-2"},{"name":"Contact form 3","path":"/strype-templates/global/Forms/contact-form-3"}]},{"name":"Galleries","icon":"https://cdn4.iconfinder.com/data/icons/miu/24/editor-images-pictures-photos-collection-glyph-64.png","path":"/strype-templates/global/Galleries","strypes":[{"name":"Cool gallery","path":"/strype-templates/global/Galleries/gallery-1"},{"name":"Even cooler gallery","path":"/strype-templates/global/Galleries/gallery-2"},{"name":"Even cooler gallery","path":"/strype-templates/global/Galleries/gallery-3"}]}]
+    var xhrData = [{"name":"Forms","icon":"https://cdn2.iconfinder.com/data/icons/picol-vector/32/document_text-64.png",
+        "path":"/strype-templates/global/Forms","strypes":[{"name":"Contact form","thumbnail":
+            "https://cdn4.iconfinder.com/data/icons/office-20/128/OFFice-05-128.png","path":"/strype-templates/global/Forms/contact-form-1"},
+            {"name":"Contact form 2","thumbnail":"https://cdn4.iconfinder.com/data/icons/office-20/128/OFFice-05-128.png",
+                "path":"/strype-templates/global/Forms/contact-form-2"},{"name":"Contact form 3","thumbnail":
+                "https://cdn4.iconfinder.com/data/icons/office-vol-4/128/office-04-128.png",
+                "path":"/strype-templates/global/Forms/contact-form-3"}]},
+        {"name":"Galleries","icon":"https://cdn4.iconfinder.com/data/icons/miu/24/editor-images-pictures-photos-collection-glyph-64.png",
+            "path":"/strype-templates/global/Galleries","strypes":
+            [{"name":"Cool gallery","thumbnail":"https://cdn1.iconfinder.com/data/icons/ilive-by-wwalczyszyn/128/Windows_Live_Gallery.png",
+                "path":"/strype-templates/global/Galleries/gallery-1"},{"name":"Even cooler gallery",
+                "thumbnail":"https://cdn0.iconfinder.com/data/icons/Android-R2-png/128/Gallery-Android-R.png",
+                "path":"/strype-templates/global/Galleries/gallery-2"},{"name":"Even cooler gallery","thumbnail":
+                "/strype-templates/global/gallery_thumbnail/gallery_img_200_3.png",
+                "path":"/strype-templates/global/Galleries/gallery-3"},
+                {"name":"Even cooler gallery","thumbnail":
+                    "https://cdn0.iconfinder.com/data/icons/IS_CMS/128/gallery.png",
+                    "path":"/strype-templates/global/Galleries/gallery-4"}]}];
 
     var MenuItem =  declare("MenuItem", [_WidgetBase, _TemplatedMixin], {
-
         templateString : itemTemplate,
         name : '',
         iconUrl : '',
+        order: '',
 
-        constructor : function(name, iconUrl) {
+        constructor : function(name, iconUrl, order) {
             this.name = name;
             this.iconUrl = iconUrl;
+            this.order = order;
         }
-
+    });
+    
+    var StrypeItem = declare("StrypeItem", [_WidgetBase, _TemplatedMixin], {
+        templateString: strypeTemplate,
+        iconUrl: '',
+        constructor: function(iconUrl){
+            this.iconUrl = iconUrl;
+        }
     });
 
     return declare("StrypeLibrary", [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
@@ -67,7 +94,7 @@ define([
 
         postCreate: function() {
             for (var i = 0; i < xhrData.length; i++) {
-                var newMenuItem = new MenuItem(xhrData[i].name,xhrData[i].icon);
+                var newMenuItem = new MenuItem(xhrData[i].name,xhrData[i].icon, i);
                 newMenuItem.placeAt(this.menuWrapperDom);
             }
 
@@ -88,26 +115,28 @@ define([
 
         },
 
-
         initializeSwiperForNode: function(node){
             console.log("initializing swpier for ",node);
             var menuSwiper = new Swiper(node, {
-                // Optional parameters
                 direction: 'horizontal',
                 loop: true,
                 freeMode: true,
                 centeredSlides: true,
                 slidesPerView: 3,
                 spaceBetween: 100,
-                onSlideChangeEnd: lang.hitch(this, this.slideFinished),
-                onTransitionStart: lang.hitch(this, this.slideStarted)
             });
         },
         loadPane: function(node){
-
-            var targetDomNode = node;
-            this.contentPaneWidget.set("innerHTML",'<div class="swiper-container">'+ targetDomNode.innerHTML+'</div>');
-            this.initializeSwiperForNode(this.contentPaneWidget.innerHTML);
+            this.contentPaneWidget.destroyDescendants();
+            var order = domAttr.get(node, "data-widget-order");
+            var strypes = xhrData[order].strypes;
+            for (var i = 0; i < strypes.length; i++) {
+                console.log(strypes[i].name);
+                var strypeItem = new StrypeItem(strypes[i].thumbnail);
+                console.log("strypeItem", strypeItem);
+                strypeItem.placeAt(this.contentPaneWidget);
+            }
+             this.initializeSwiperForNode(".strypes-items-wrapper");
         }
     });
 
