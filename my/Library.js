@@ -19,13 +19,13 @@ define([
 ], function(declare, parser, _WidgetBase, _TemplatedMixin, template, itemTemplate, strypeTemplate, domClass, domConstruct,
             ContentPane, registry, lang, _WidgetsInTemplateMixin, on, xhr, domAttr){
 
-    var xhrData = [{"name":"Forms","icon":"https://cdn2.iconfinder.com/data/icons/picol-vector/32/document_text-64.png",
+    var xhrData = {"Forms": {"name":"Forms","icon":"https://cdn2.iconfinder.com/data/icons/picol-vector/32/document_text-64.png",
         "path":"/strype-templates/global/Forms","strypes":[{"name":"Contact form","thumbnail":
             "https://cdn4.iconfinder.com/data/icons/office-20/128/OFFice-05-128.png","path":"/strype-templates/global/Forms/contact-form-1"},
             {"name":"Contact form 2","thumbnail":"https://cdn4.iconfinder.com/data/icons/office-21/128/office-04-128.png",
                 "path":"/strype-templates/global/Forms/contact-form-2"},{"name":"Contact form 3","thumbnail":
                 "https://cdn4.iconfinder.com/data/icons/office-vol-4/128/office-04-128.png",
-                "path":"/strype-templates/global/Forms/contact-form-3"}]},
+                "path":"/strype-templates/global/Forms/contact-form-3"}]}, "Galleries":
         {"name":"Galleries","icon":"https://cdn4.iconfinder.com/data/icons/miu/24/editor-images-pictures-photos-collection-glyph-64.png",
             "path":"/strype-templates/global/Galleries","strypes":
             [{"name":"Cool gallery","thumbnail":"https://cdn1.iconfinder.com/data/icons/ilive-by-wwalczyszyn/128/Windows_Live_Gallery.png",
@@ -36,18 +36,16 @@ define([
                 "path":"/strype-templates/global/Galleries/gallery-3"},
                 {"name":"Even cooler gallery","thumbnail":
                     "https://cdn0.iconfinder.com/data/icons/IS_CMS/128/gallery.png",
-                    "path":"/strype-templates/global/Galleries/gallery-4"}]}];
+                    "path":"/strype-templates/global/Galleries/gallery-4"}]}};
 
     var MenuItem =  declare("MenuItem", [_WidgetBase, _TemplatedMixin], {
         templateString : itemTemplate,
         name : '',
         iconUrl : '',
-        order: '',
 
-        constructor : function(name, iconUrl, order) {
+        constructor : function(name, iconUrl) {
             this.name = name;
             this.iconUrl = iconUrl;
-            this.order = order;
         }
     });
     
@@ -81,6 +79,7 @@ define([
         activateMenuItem : function() {
             if (this.activeElement) {
                 domClass.add(this.activeElement,'swiper-active');
+                console.log("ACTIVE ELEMENT: ", this.activeElement);
                 this.loadPane(this.activeElement);
             }
         },
@@ -89,15 +88,14 @@ define([
             if (this.activeElement) {
                 domClass.remove(this.activeElement,'swiper-active');
             }
-
         },
 
         postCreate: function() {
-            for (var i = 0; i < xhrData.length; i++) {
-                var newMenuItem = new MenuItem(xhrData[i].name,xhrData[i].icon, i);
+            for (var i = 0; i < Object.keys(xhrData).length; i++) {
+                var obj = xhrData[Object.keys(xhrData)[i]];
+                var newMenuItem = new MenuItem(obj.name, obj.icon);
                 newMenuItem.placeAt(this.menuWrapperDom);
             }
-
             var menuSwiper = this.initializeSwiperForNode('.swiper-container', {
                 onSlideChangeEnd: lang.hitch(this, this.slideFinished),
                 onTransitionStart: lang.hitch(this, this.slideStarted)
@@ -109,19 +107,20 @@ define([
             var menuSwiper = new Swiper(node, {
                 direction: 'horizontal',
                 loop: true,
-                freeMode: true,
-                centeredSlides: true,
+                freeMode: false,
                 slidesPerView: 3,
                 spaceBetween: 100,
+                centeredSlides: true,
                 onSlideChangeEnd: obj.onSlideChangeEnd,
                 onTransitionStart: obj.onTransitionStart
             });
             return menuSwiper;
         },
         loadPane: function(node){
+            console.log(node);
             this.contentPaneWidget.destroyDescendants();
-            var order = domAttr.get(node, "data-widget-order");
-            var strypes = xhrData[order].strypes;
+            var category = domAttr.get(node, "data-widget-category");
+            var strypes = xhrData[category].strypes;
             for (var i = 0; i < strypes.length; i++) {
                 var strypeItem = new StrypeItem(strypes[i].thumbnail);
                 strypeItem.placeAt(this.contentPaneWidget);
