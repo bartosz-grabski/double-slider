@@ -98,25 +98,14 @@ define([
                 newMenuItem.placeAt(this.menuWrapperDom);
             }
 
-            var menuSwiper = new Swiper('.swiper-container', {
-                // Optional parameters
-                direction: 'horizontal',
-                loop: true,
-                freeMode: true,
-                centeredSlides: true,
-                slidesPerView: 3,
-                spaceBetween: 100,
+            var menuSwiper = this.initializeSwiperForNode('.swiper-container', {
                 onSlideChangeEnd: lang.hitch(this, this.slideFinished),
                 onTransitionStart: lang.hitch(this, this.slideStarted)
-            });
-
+            })
             this.activeElement = menuSwiper.slides[menuSwiper.activeIndex];
 
-
         },
-
-        initializeSwiperForNode: function(node){
-            console.log("initializing swpier for ",node);
+        initializeSwiperForNode: function(node, obj){
             var menuSwiper = new Swiper(node, {
                 direction: 'horizontal',
                 loop: true,
@@ -124,24 +113,20 @@ define([
                 centeredSlides: true,
                 slidesPerView: 3,
                 spaceBetween: 100,
+                onSlideChangeEnd: obj.onSlideChangeEnd,
+                onTransitionStart: obj.onTransitionStart
             });
+            return menuSwiper;
         },
         loadPane: function(node){
-            console.log("loadPane", node);
             this.contentPaneWidget.destroyDescendants();
             var order = domAttr.get(node, "data-widget-order");
             var strypes = xhrData[order].strypes;
-            console.log(strypes);
             for (var i = 0; i < strypes.length; i++) {
                 var strypeItem = new StrypeItem(strypes[i].thumbnail);
                 strypeItem.placeAt(this.contentPaneWidget);
             }
-             this.initializeSwiperForNode(".strypes-items-wrapper");
+             this.initializeSwiperForNode(".strypes-items-wrapper",{});
         }
     });
-
-
-
-
-    //parser.parse();
 });
