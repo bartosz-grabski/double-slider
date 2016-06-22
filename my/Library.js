@@ -99,10 +99,15 @@ define([
             var menuSwiper = this.initializeSwiperForNode('.menu-container', {
                 onSlideChangeEnd: lang.hitch(this, this.slideFinished),
                 onTransitionStart: lang.hitch(this, this.slideStarted)
-            })
+            });
             this.activeElement = menuSwiper.slides[menuSwiper.activeIndex];
 
         },
+
+        setUpHighlight: function () {
+
+        },
+
         initializeSwiperForNode: function(node, obj){
             var menuSwiper = new Swiper(node, {
                 direction: 'horizontal',

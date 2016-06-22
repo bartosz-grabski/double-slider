@@ -1,20 +1,44 @@
-.swiper-container {
+.menu-container {
     width: 600px;
-    height: 70px;
+    height: 100px;
+    background-color: #CFCFCF;
 }
 
+.swiper-separator {
+    width: 600px;
+    margin: auto;
+    height:5px;
+}
+
+.swiper-slide {
+    color: #6871F7;
+    font-family: Arial;
+    font-size: 14px;
+    text-align: center;
+}
+
+.swiper-slide-icon {
+    height: 70px;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom:5px;
+}
+
+.swiper-separator-highlight {
+    background-color: #6871F7;
+    height: 5px;
+    width:130px;
+    margin: auto;
+}
 
 .swiper-content {
 	width: 600px;
 	height: 250px;
 }
 
-.menu-slide {
-	background-repeat: no-repeat;
-	background-position: center;
-}
-
-.swiper-active {
+.swiper-slide {
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .strypesLibraryContent {
@@ -24,5 +48,6 @@
 
 .strypes-items-wrapper {
 	width: 600px;
-	height: 90px;
+	height: 300px;
+    background-color: #E8E8E8;
 }
