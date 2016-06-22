@@ -63,7 +63,7 @@ define([
         activeElement : '',
 
         constructor: function() {
-            console.log(arguments);
+            console.log("StrypeLibrary", arguments);
         },
 
         slideFinished : function(swiper) {
@@ -96,7 +96,7 @@ define([
                 var newMenuItem = new MenuItem(obj.name, obj.icon);
                 newMenuItem.placeAt(this.menuWrapperDom);
             }
-            var menuSwiper = this.initializeSwiperForNode('.swiper-container', {
+            var menuSwiper = this.initializeSwiperForNode('.menu-container', {
                 onSlideChangeEnd: lang.hitch(this, this.slideFinished),
                 onTransitionStart: lang.hitch(this, this.slideStarted)
             })
@@ -114,18 +114,20 @@ define([
                 onSlideChangeEnd: obj.onSlideChangeEnd,
                 onTransitionStart: obj.onTransitionStart
             });
+            console.log("returning.. ",menuSwiper);
             return menuSwiper;
         },
         loadPane: function(node){
-            console.log(node);
+            console.log("loadPane", node);
             this.contentPaneWidget.destroyDescendants();
             var category = domAttr.get(node, "data-widget-category");
+            if (category == null) return;
             var strypes = xhrData[category].strypes;
             for (var i = 0; i < strypes.length; i++) {
                 var strypeItem = new StrypeItem(strypes[i].thumbnail);
                 strypeItem.placeAt(this.contentPaneWidget);
             }
-             this.initializeSwiperForNode(".strypes-items-wrapper",{});
+            this.initializeSwiperForNode(".strypes-items-wrapper",{});
         }
     });
 });
